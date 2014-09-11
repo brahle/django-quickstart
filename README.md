@@ -18,16 +18,16 @@ Motivation
 
 After reading a few blog posts on the internet that describe "the perfect
 Django/Python server" environment, there seemed to be quite a lot of stuff
-to do before one could actually start working. To eliviete that problem,
-one could use a script that does most of that work for the engineer - which
-brings us to this project. 
+to do before one could actually start working on a project. To eliviete
+that problem, one could use a script that does most of that work for the
+engineer - which brings us to this project. 
 
 TODO(brahle): add links to the blog posts.
 
 The perfect environment
 =======================
 
-TODO(brahle): Order and connect this so it actually has meaning. 
+TODO(brahle): Order and connect this so it actually makes sense.
 
 Directory structure
 -------------------
@@ -48,8 +48,8 @@ Security
 
 You don't want to have your security (easily) breached. Django has a bad
 habbit of saving the secret key inside the `settings.py` file. We, therefore,
-change that, and **store the secret key in a separate file**. `.gitignore`
-will ensure that we won't commit it by accident. 
+change that, and **automatically generate the secret key and store it in a
+separate file**. `.gitignore` will ensure that we won't commit it by accident. 
 
 We also split `settings.py` into two files:
 
@@ -58,17 +58,23 @@ of the project. Almost the default `settings.py` with the improvement described
 above.
 2. `settings_local.py`, which hold specific settings regarding the current
 server, like the database information. Although it is added to the
-`.gitignore`, Be careful not to commit the unwanted changes to the repisorty,
+`.gitignore`, be careful not to commit the unwanted changes to the repisorty,
 as that might leak your database username and password. It **takes precedence**
-over `settings_global.py`, so you can use to override settings on a per-machine
-basis.
+over `settings_global.py`, so you can use it to override settings on a
+per-machine basis.
 
 Virtual environment
 -------------------
 
-We create a virtual environment for the project to live in and add an activation
-script to the repository root. All of the additional required software is installed
-there. 
+The production environment is inside a [virtual environment]
+(http://docs.python-guide.org/en/latest/dev/virtualenvs/) and we add the activation
+script of the environment to the git reposiotry. *This is the reason it doesn't work
+with multiple servers/clients.*
+
+Inside the virtual environment, we have the following (interesting) directories:
+
+* `<PROJECT_NAME>` - which is where the git repository is at. 
+* ...
 
 TODO(brahle): **major** Allow users from other servers to simply duplicate the
 virtual environment. 
@@ -81,6 +87,8 @@ basic .gitignore template.
 
 Static files
 ------------
+
+...
 
 Fabric
 ------
