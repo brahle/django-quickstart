@@ -1,0 +1,26 @@
+server {
+    listen       80;
+    server_name  www.<SERVER_NAME>;
+    return       301 http://<SERVER_NAME>$request_uri;
+}
+
+server {
+    server_name <SERVER_NAME>;
+
+    access_log /var/log/nginx/<SERVER_NAME>.access.log;
+    error_log /var/log/nginx/<SERVER_NAME>.error.log;
+
+    location /static/ {
+        alias <STATIC_ROOT>/static/;
+        access_log off;
+    }
+
+    location / {
+        proxy_pass http://127.0.0.1:<PORT>;
+        proxy_set_header X-Forwarded-Host $server_name;
+        proxy_set_header X-Real-IP $remote_addr;
+        add_header P3P 'CP="ALL DSP COR PSAa PSDa OUR NOR ONL UNI COM NAV"';
+    }
+}
+
+

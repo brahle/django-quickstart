@@ -1,0 +1,8 @@
+secret_key.py
+secret_local.py
+activate
+*.pyc
+*.pye
+*.bak
+.*.swp
+
