@@ -1,7 +1,7 @@
 Django-quickstart
 =================
 
-Shell scripts that help you quickly start a Django project.
+Shell scripts that helps you quickly start a Django project.
 
 Django's setup.py is only going so far in helping you start a Django
 project quickly. A lot of additional setup is needed if one wants to
@@ -10,6 +10,86 @@ kick start things "the right way" (in no means the only right way).
 
 If you have any suggestions/feature requests/etc., please open an issue
 and I'll look into adding it. 
+
+TODO(brahle): This readme, like the project, is still under construction.
+
+Motivation
+==========
+
+After reading a few blog posts on the internet that describe "the perfect
+Django/Python server" environment, there seemed to be quite a lot of stuff
+to do before one could actually start working. To eliviete that problem,
+one could use a script that does most of that work for the engineer - which
+brings us to this project. 
+
+TODO(brahle): add links to the blog posts.
+
+The perfect environment
+=======================
+
+TODO(brahle): Order and connect this so it actually has meaning. 
+
+Directory structure
+-------------------
+
+Your project should be separated into a (at least) a few areas:
+
+* Production - where the current stable version of your software is
+served from. It is what your users see.
+* Development - where you actually make changes while you are developing
+the software. Your users shouldn't use this. 
+* Nightly (optional) - the current master branch of your repository. You
+can call this a Beta version.
+ 
+This script creates only the first two areas.
+
+Security
+--------
+
+You don't want to have your security (easily) breached. Django has a bad
+habbit of saving the secret key inside the `settings.py` file. We, therefore,
+change that, and **store the secret key in a separate file**. `.gitignore`
+will ensure that we won't commit it by accident. 
+
+We also split `settings.py` into two files:
+
+1. `settings_global.py` which holds global settings used by all developers
+of the project. Almost the default `settings.py` with the improvement described
+above.
+2. `settings_local.py`, which hold specific settings regarding the current
+server, like the database information. Although it is added to the
+`.gitignore`, Be careful not to commit the unwanted changes to the repisorty,
+as that might leak your database username and password. It **takes precedence**
+over `settings_global.py`, so you can use to override settings on a per-machine
+basis.
+
+Virtual environment
+-------------------
+
+We create a virtual environment for the project to live in and add an activation
+script to the repository root. All of the additional required software is installed
+there. 
+
+TODO(brahle): **major** Allow users from other servers to simply duplicate the
+virtual environment. 
+
+Git repository
+--------------
+
+We commit the bare bones project to a git repository alongside with our 
+basic .gitignore template. 
+
+Static files
+------------
+
+Fabric
+------
+
+The provided `fabfile.py` offers you a few common workflows:
+
+1. Merging your work to master
+2. Quickly deploying your work to production
+
 
 Requirements
 ============
