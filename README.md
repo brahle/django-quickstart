@@ -1,4 +1,4 @@
-Django-quickstart
+Django-quickstart (version 0.1)
 =================
 
 Shell scripts that helps you quickly start a Django project.
@@ -27,21 +27,51 @@ TODO(brahle): add links to the blog posts.
 The perfect environment
 =======================
 
-TODO(brahle): Order and connect this so it actually makes sense.
+Some say that the hardest part of starting a project is naming it.
+I believe it should be true, not because it is hard to name stuff,
+but because starting a project should be as easy as possible. 
+
+Therefore, the key thing this script needs to know is the name of
+the project, a.k.a. the `$PROJ_NAME`. You should strive to only
+use alphanumerics in the project name, printable characters at the
+very least. 
 
 Directory structure
 -------------------
 
-Your project should be separated into a (at least) a few areas:
+Moving your server to another location should also be as easy
+as possible. We therefore try to "infect" the file system as
+little as possible by creating folders that make sense and
+are (fairly) easy to move around to another server.
 
-* Production - where the current stable version of your software is
+Theoretically, your project should be separated into a (at least) a few areas
+[citation needed]:
+
+* Production (a.k.a. prod) - where the current stable version of your software is
 served from. It is what your users see.
-* Development - where you actually make changes while you are developing
+* Development (a.k.a. dev) - where you actually make changes while you are developing
 the software. Your users shouldn't use this. 
 * Nightly (optional) - the current master branch of your repository. You
 can call this a Beta version.
  
-This script creates only the first two areas.
+This script creates only the first two areas, production and development.
+
+The key directories you need to specify are:
+
+* `$ROOT_DIR` - the directory where we will create the production file strucutre.
+By default, this is the directory the script has been called from. 
+* `$VIRTUALENV_DIR` - the directory where we will store the virtual environemnt.
+By default, this is `$ROOT_DIR/$PROJ_NAME-virtualenv`.
+* `$PROJ_DIR` - the directory where we will store the django project files. It
+will be the production git repository from which we run our webserver. By default,
+this is `$VIRUTALENV_DIR/$PROJ_NAME`.
+* `$LOG_DIR` - the directory where we store logs. By default, this is `$VIRTUALENV_DIR/log`
+* `$DEV_DIR` - the directory where you will do the development from.  By default,
+it is equal to `/home/$USER/dev/`.
+
+Additionally, if you want to use different templates, you can specify the
+`$TEMPLATE_DIR`. By default, that is in the `$SCRIPT_DIR/templates/`. 
+
 
 Security
 --------
