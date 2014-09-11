@@ -16,22 +16,25 @@ Requirements
 
 This script requires the following software to be installed:
 
-* `python`
-* `pip`
+* [Python](https://www.python.org/) (2.7+)
+* [Pip](https://pypi.python.org/pypi/pip)
+* [Git](http://git-scm.com/)
+
+You can typically install them with `sudo apt-get install python python-pip git-core`.
 
 Additionally installed
-------------------------------------
+----------------------
 
 For all users:
 
-* `django`
+* [Django](https://www.djangoproject.com/)
 
 Inside a virtual envirnoment:
 
-* `django`
-* `south`
-* `fabric`
-* `gunicorn`
+* [Django](https://www.djangoproject.com/)
+* [South](http://south.aeracode.org/)
+* [Fabric](https://github.com/mocco/django-fabric)
+* [Gunicorn](http://gunicorn.org/)
 
 Usage
 =====
