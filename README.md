@@ -69,9 +69,15 @@ this is `$VIRUTALENV_DIR/$PROJ_NAME`.
 * `$DEV_DIR` - the directory where you will do the development from.  By default,
 it is equal to `/home/$USER/dev/`.
 
+The default tree structure is something like this, with `$DEV_DIR` being separate:
+
+    $ROOT_DIR
+    \-- $VIRTUALENV_DIR
+        \-- $PROJ_DIR
+        \-- $LOG_DIR
+
 Additionally, if you want to use different templates, you can specify the
 `$TEMPLATE_DIR`. By default, that is in the `$SCRIPT_DIR/templates/`. 
-
 
 Security
 --------
@@ -86,7 +92,7 @@ We also split `settings.py` into two files:
 1. `settings_global.py` which holds global settings used by all developers
 of the project. Almost the default `settings.py` with the improvement described
 above.
-2. `settings_local.py`, which hold specific settings regarding the current
+2. `settings_local.py`, which holds specific settings regarding the current
 server, like the database information. Although it is added to the
 `.gitignore`, be careful not to commit the unwanted changes to the repisorty,
 as that might leak your database username and password. It **takes precedence**
@@ -98,13 +104,9 @@ Virtual environment
 
 The production environment is inside a [virtual environment]
 (http://docs.python-guide.org/en/latest/dev/virtualenvs/) and we add the activation
-script of the environment to the git reposiotry. *This is the reason it doesn't work
-with multiple servers/clients.*
-
-Inside the virtual environment, we have the following (interesting) directories:
-
-* `<PROJECT_NAME>` - which is where the git repository is at. 
-* ...
+script of the environment to the git reposiotry. *Note: this is the reason the script
+doesn't mix well with multiple servers/clients - we need to recreate the environment
+on the "pure" client.*
 
 TODO(brahle): **major** Allow users from other servers to simply duplicate the
 virtual environment. 
