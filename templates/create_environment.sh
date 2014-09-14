@@ -67,7 +67,7 @@ source $LOCATION/bin/activate
 execute pip install -r $SCRIPT_DIR/.environment_settings/requirements.txt
 
 # Create a link to activate the environment in the repository
-execute ln -s $LOCATION/bin/activate $SCRIPT_DIR/activate
+execute ln -sf $LOCATION/bin/activate $SCRIPT_DIR/activate
 
 echo "You should now be able to source the activate script from the root " \ 
     "of your repository - '$SCRIPT_DIR'!"
