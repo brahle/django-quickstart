@@ -97,9 +97,12 @@ execute pip install Django==$DJANGO_VERSION -r $TEMPLATE_DIR/requirements.txt
 execute django-admin.py startproject $PROJ_NAME
 
 # Create the requirements file for the project
-export ENV_DIR=$PROJ_DIR/$PROJ_NAME/.environment_settings/
+export ENV_DIR=$PROJ_DIR/.environment_settings/
 execute mkdir $ENV_DIR
 pip freeze > $ENV_DIR/requirements.txt
+
+# Copy the environment scripts to the project
+cp $TEMPLATE_DIR/create_environment.sh $PROJ_DIR
 
 # Copy settings to the project
 cp $TEMPLATE_DIR/settings{,_global,_local}.py $PROJ_DIR/$PROJ_NAME/

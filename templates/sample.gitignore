@@ -1,6 +1,6 @@
 secret_key.py
 secret_local.py
-activate
+/activate
 *.pyc
 *.pye
 *.bak
