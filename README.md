@@ -137,12 +137,14 @@ Requirements
 
 This script requires the following software to be installed:
 
-* [Python](https://www.python.org/) (2.7+)
-* [Pip](https://pypi.python.org/pypi/pip)
 * [Git](http://git-scm.com/)
 * [Git flow](https://github.com/nvie/gitflow) (see [cheatsheet](http://danielkummer.github.io/git-flow-cheatsheet/))
+* [nginx](http://nginx.org/)
+* [Python](https://www.python.org/) (2.7+)
+* [Python Virtualenv](https://virtualenv.pypa.io/en/latest/)
+* [Python Pip](https://pip.pypa.io/en/latest/)
 
-You can typically install them with `sudo apt-get install python python-pip git-core`.
+You can typically install them with `sudo apt-get install python python-virtualenv python-pip git-core`.
 
 Additionally installed
 ----------------------
