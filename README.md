@@ -143,8 +143,9 @@ This script requires the following software to be installed:
 * [Python](https://www.python.org/) (2.7+)
 * [Python Virtualenv](https://virtualenv.pypa.io/en/latest/)
 * [Python Pip](https://pip.pypa.io/en/latest/)
+* [Python dev]
 
-You can typically install them with `sudo apt-get install python python-virtualenv python-pip git-core`.
+You can typically install them with `sudo apt-get install git-core git-flow python python-virtualenv python-pip python-dev`.
 
 Additionally installed
 ----------------------
