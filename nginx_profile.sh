@@ -1,6 +1,8 @@
 #!/bin/bash
 # Copyright Bruno Rahle 2014
 
+source $SCRIPT_DIR/functions.sh
+
 NGINX_FOLDER="/etc/nginx"
 SITES_AVAILABLE="$NGINX_FOLDER/sites-available"
 SITES_ENABLED="$NGINX_FOLDER/sites-enabled"

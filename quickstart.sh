@@ -61,10 +61,13 @@ function get_setup_data {
     do
         read -e -p "Project name? " -i "$PROJ_NAME" PROJ_NAME
         read -e -p "Django version? " -i "$DJANGO_VERSION" DJANGO_VERSION
+        read -e -p "Local port (gunicorn to nginx)? " -i "$PROJ_LOCAL_PORT" \
+            PROJ_LOCAL_PORT
         read -e -p "Root directory? " -i "$ROOT_DIR" ROOT_DIR
         export PROD_DIR=$ROOT_DIR
         export VIRTUALENV_DIR="$ROOT_DIR/$PROJ_NAME-virtualenv"
-        read -e -p "Virtual environment directory? " -i "$VIRTUALENV_DIR" VIRTUALENV_DIR
+        read -e -p "Virtual environment directory? " -i "$VIRTUALENV_DIR" \
+            VIRTUALENV_DIR
         export PROJ_DIR="$VIRTUALENV_DIR/$PROJ_NAME"
         export LOG_DIR="$VIRTUALENV_DIR/log"
         read -e -p "Log directory? " -i "$LOG_DIR" LOG_DIR
