@@ -128,6 +128,8 @@ To help with that, this script creates a basic Gunicorn and Nginx configuration 
 Gunicorn
 --------
 
+Gunicorn, or Green Unicorn, is a Python server which will run multiple instance of our server.  
+
 Nginx
 -----
 
