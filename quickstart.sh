@@ -90,11 +90,16 @@ execute virtualenv $VIRTUALENV_DIR
 cd $VIRTUALENV_DIR
 source $VIRTUALENV_DIR/bin/activate
 
-# Install requirements inside the virtual environment
-execute pip install Django==$DJANGO_VERSION south fabric gunicorn
+# Install the requirements inside virtual environment
+execute pip install Django==$DJANGO_VERSION -r $TEMPLATE_DIR/requirements.txt
 
 # Create Django project
 execute django-admin.py startproject $PROJ_NAME
+
+# Create the requirements file for the project
+export ENV_DIR=$PROJ_DIR/$PROJ_NAME/.environment_settings/
+execute mkdir $ENV_DIR
+pip freeze > $ENV_DIR/requirements.txt
 
 # Copy settings to the project
 cp $TEMPLATE_DIR/settings{,_global,_local}.py $PROJ_DIR/$PROJ_NAME/
