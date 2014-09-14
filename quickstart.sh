@@ -116,7 +116,7 @@ cd $PROJ_DIR
 execute git init
 cp $TEMPLATE_DIR/sample.gitignore .gitignore
 execute git add .
-execute git commit -a -m "Initial commit for project $PROJ_NAME"
+git commit -a -m "Initial commit for project $PROJ_NAME"
 
 # Create development repository
 execute mkdir -p $DEV_DIR
