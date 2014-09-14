@@ -75,9 +75,9 @@ function get_setup_data {
 
 get_setup_data
 
-mkdir -p $ROOT_DIR
+execute mkdir -p $ROOT_DIR
 cd $ROOT_DIR
-mkdir -p $LOG_DIR
+execute mkdir -p $LOG_DIR
 
 # Install Django for all users
 execute pip install Django==$DJANGO_VERSION
@@ -98,7 +98,7 @@ cp $TEMPLATE_DIR/settings{,_global,_local}.py $PROJ_DIR/$PROJ_NAME/
 sed -ie "s/<PROJECT_NAME>/$PROJ_NAME/g" $PROJ_DIR/$PROJ_NAME/settings*.py
 sed -ie "s|<STATIC_ROOT>|$VIRTUALENV_DIR/static/|g" $PROJ_DIR/$PROJ_NAME/settings*.py
 cd $PROJ_DIR
-mkdir -p $PROJ_DIR/static
+execute mkdir -p $PROJ_DIR/static
 execute python manage.py syncdb
 
 # Initialize south
@@ -113,36 +113,40 @@ sed -ie "s|<DEV_DIR>|$DEV_DIR/$PROJ_NAME|g" $PROJ_DIR/fabfile.py
 # Create git repository
 # TODO(brahle): ask for user name and password if not set
 cd $PROJ_DIR
-git init
+execute git init
 cp $TEMPLATE_DIR/sample.gitignore .gitignore
-git add .
-git commit -a -m "Initial commit for project $PROJ_NAME"
+execute git add .
+execute git commit -a -m "Initial commit for project $PROJ_NAME"
 
 # Create development repository
-mkdir -p $DEV_DIR
+execute mkdir -p $DEV_DIR
 cd $DEV_DIR
-git clone $PROJ_DIR
+execute git clone $PROJ_DIR
 cp $PROJ_DIR/$PROJ_NAME/settings_local.py $DEV_DIR/$PROJ_NAME/$PROJ_NAME
 ln -s $VIRTUALENV_DIR/bin/activate $DEV_DIR/$PROJ_NAME/activate
 
-# Initialize nginx
-cd $SCRIPT_DIR
-./nginx_profile.sh
-
-# Set up gunicorn
-cp $TEMPLATE_DIR/gunicorn_conf.py $VIRTUALENV_DIR
-sed -ie "s|<PRODUCTION_DIR>|$PROJ_DIR|g" $VIRTUALENV_DIR/gunicorn_conf.py
-sed -ie "s/<PORT>/$PROJ_LOCAL_PORT/g" $VIRTUALENV_DIR/gunicorn_conf.py
-cd $VIRTUALENV_DIR
-
 # Collect static files for the first time
 cd $PROJ_DIR
-mkdir -p $VIRTUALENV_DIR/static
+execute mkdir -p $VIRTUALENV_DIR/static
 execute python manage.py collectstatic
 
-if confirm "Do you want to start gunicorn [Y/n] ?"
+
+if confirm "Do you want to configure the webserver [Y/n] ?"
 then
-    echo "You may kill this process anytime and restart gunicorn yourself."
-    gunicorn -c $VIRTUALENV_DIR/gunicorn_conf.py $PROJ_NAME.wsgi:application
+    # Initialize nginx
+    cd $SCRIPT_DIR
+    ./nginx_profile.sh
+
+    # Set up gunicorn
+    cp $TEMPLATE_DIR/gunicorn_conf.py $VIRTUALENV_DIR
+    sed -ie "s|<PRODUCTION_DIR>|$PROJ_DIR|g" $VIRTUALENV_DIR/gunicorn_conf.py
+    sed -ie "s/<PORT>/$PROJ_LOCAL_PORT/g" $VIRTUALENV_DIR/gunicorn_conf.py
+    cd $VIRTUALENV_DIR
+
+    if confirm "Do you want to start gunicorn [Y/n] ?"
+    then
+        echo "You may kill this process anytime and restart gunicorn yourself."
+        gunicorn -c $VIRTUALENV_DIR/gunicorn_conf.py $PROJ_NAME.wsgi:application
+    fi
 fi
 

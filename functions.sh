@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Copyright Bruno Rahle 2014
 
 function execute {
