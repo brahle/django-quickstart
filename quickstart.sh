@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Copyright Bruno Rahle 2014
 # This script helps you start django project the right way.
 # It was inspired by this blog post:
