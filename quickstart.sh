@@ -133,18 +133,17 @@ cd $PROJ_DIR
 execute mkdir -p $VIRTUALENV_DIR/static
 execute python manage.py collectstatic
 
+# Set up gunicorn
+cp $TEMPLATE_DIR/gunicorn_conf.py $VIRTUALENV_DIR
+sed -ie "s|<PRODUCTION_DIR>|$PROJ_DIR|g" $VIRTUALENV_DIR/gunicorn_conf.py
+sed -ie "s/<PORT>/$PROJ_LOCAL_PORT/g" $VIRTUALENV_DIR/gunicorn_conf.py
+cd $VIRTUALENV_DIR
 
 if confirm "Do you want to configure the webserver [Y/n] ?"
 then
     # Initialize nginx
     cd $SCRIPT_DIR
     ./nginx_profile.sh
-
-    # Set up gunicorn
-    cp $TEMPLATE_DIR/gunicorn_conf.py $VIRTUALENV_DIR
-    sed -ie "s|<PRODUCTION_DIR>|$PROJ_DIR|g" $VIRTUALENV_DIR/gunicorn_conf.py
-    sed -ie "s/<PORT>/$PROJ_LOCAL_PORT/g" $VIRTUALENV_DIR/gunicorn_conf.py
-    cd $VIRTUALENV_DIR
 
     if confirm "Do you want to start gunicorn [Y/n] ?"
     then
