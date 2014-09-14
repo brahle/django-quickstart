@@ -49,27 +49,16 @@ function confirm {
     esac
 }
 
-if ! confirm "This will create a new virtual environment. Continue [Y/n] ?"
+REQ=$SCRIPT_DIR/.environment_settings/requirements.txt
+
+if ! confirm "This will save the currently installed pip package data to $REQ. Continue [Y/n] ? "
 then
     exit 0
 fi
 
-LOCATION=$(pwd)/virtualenv
-read -e -p "Location of the virtualenv? " -i "$LOCATION" LOCATION
+# Save requirements
+pip freeze > $REQ
 
-# Install the virtualenv
-execute mkdir -p $LOCATION
-execute virtualenv $LOCATION
-cd $LOCATION
-source $LOCATION/bin/activate
-
-# Install the requirements
-execute pip install -r $SCRIPT_DIR/.environment_settings/requirements.txt
-
-# Create a link to activate the environment in the repository
-execute ln -sf $LOCATION/bin/activate $SCRIPT_DIR/activate
-
-echo "You should now be able to source the activate script from the root " \ 
-    "of your repository - '$SCRIPT_DIR'!"
+echo "Requirements saved!"
 
 

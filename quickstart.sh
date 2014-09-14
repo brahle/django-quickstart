@@ -91,7 +91,7 @@ cd $VIRTUALENV_DIR
 source $VIRTUALENV_DIR/bin/activate
 
 # Install the requirements inside virtual environment
-execute pip install Django==$DJANGO_VERSION -r $TEMPLATE_DIR/requirements.txt
+execute pip install Django==$DJANGO_VERSION -r $TEMPLATE_DIR/env/requirements.txt
 
 # Create Django project
 execute django-admin.py startproject $PROJ_NAME
@@ -102,10 +102,10 @@ execute mkdir $ENV_DIR
 pip freeze > $ENV_DIR/requirements.txt
 
 # Copy the environment scripts to the project
-cp $TEMPLATE_DIR/create_environment.sh $PROJ_DIR
+cp $TEMPLATE_DIR/env/*_environment.sh $PROJ_DIR
 
 # Copy settings to the project
-cp $TEMPLATE_DIR/settings{,_global,_local}.py $PROJ_DIR/$PROJ_NAME/
+cp $TEMPLATE_DIR/settings/settings{,_global,_local}.py $PROJ_DIR/$PROJ_NAME/
 sed -ie "s/<PROJECT_NAME>/$PROJ_NAME/g" $PROJ_DIR/$PROJ_NAME/settings*.py
 sed -ie "s|<STATIC_ROOT>|$VIRTUALENV_DIR/static/|g" $PROJ_DIR/$PROJ_NAME/settings*.py
 cd $PROJ_DIR
@@ -134,7 +134,6 @@ execute mkdir -p $DEV_DIR
 cd $DEV_DIR
 execute git clone $PROJ_DIR
 cp $PROJ_DIR/$PROJ_NAME/settings_local.py $DEV_DIR/$PROJ_NAME/$PROJ_NAME
-ln -s $VIRTUALENV_DIR/bin/activate $DEV_DIR/$PROJ_NAME/activate
 
 # Collect static files for the first time
 cd $PROJ_DIR
@@ -153,10 +152,11 @@ then
     cd $SCRIPT_DIR
     ./nginx_profile.sh
 
-    if confirm "Do you want to start gunicorn [Y/n] ?"
-    then
-        echo "You may kill this process anytime and restart gunicorn yourself."
-        gunicorn -c $VIRTUALENV_DIR/gunicorn_conf.py $PROJ_NAME.wsgi:application
-    fi
+fi
+
+if confirm "Do you want to start gunicorn [Y/n] ?"
+then
+    echo "You may kill this process anytime and restart gunicorn yourself."
+    gunicorn -c $VIRTUALENV_DIR/gunicorn_conf.py $PROJ_NAME.wsgi:application
 fi
 
