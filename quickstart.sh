@@ -80,7 +80,7 @@ cd $ROOT_DIR
 execute mkdir -p $LOG_DIR
 
 # Install Django for all users
-execute pip install Django==$DJANGO_VERSION
+execute sudo pip install Django==$DJANGO_VERSION
 
 # Creating virtual environment
 execute virtualenv $VIRTUALENV_DIR
