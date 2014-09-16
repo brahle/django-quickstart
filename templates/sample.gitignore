@@ -1,5 +1,5 @@
 secret_key.py
-secret_local.py
+settings_local.py
 /activate
 *.pyc
 *.pye

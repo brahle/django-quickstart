@@ -20,6 +20,7 @@ while [ -h "$SOURCE" ]; do
     # where the symlink file was located
 done
 export SCRIPT_DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+export ROOT_DIR="$(dirname $SCRIPT_DIR)"
 
 function execute {
     echo "Executing $@..."
@@ -49,7 +50,7 @@ function confirm {
     esac
 }
 
-REQ=$SCRIPT_DIR/.environment_settings/requirements.txt
+REQ=$SCRIPT_DIR/requirements.txt
 
 if ! confirm "This will save the currently installed pip package data to $REQ. Continue [Y/n] ? "
 then
@@ -60,5 +61,4 @@ fi
 pip freeze > $REQ
 
 echo "Requirements saved!"
-
 

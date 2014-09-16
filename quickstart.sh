@@ -76,6 +76,7 @@ function get_setup_data {
     done
 }
 
+source $SCRIPT_DIR/script_requirements.sh
 get_setup_data
 
 execute mkdir -p $ROOT_DIR
@@ -83,10 +84,10 @@ cd $ROOT_DIR
 execute mkdir -p $LOG_DIR
 
 # Install Django for all users
-execute sudo pip install Django==$DJANGO_VERSION
+execute sudo $PIP install Django==$DJANGO_VERSION
 
 # Creating virtual environment
-execute virtualenv $VIRTUALENV_DIR
+execute virtualenv -p $PYTHON $VIRTUALENV_DIR
 cd $VIRTUALENV_DIR
 source $VIRTUALENV_DIR/bin/activate
 
@@ -97,12 +98,14 @@ execute pip install Django==$DJANGO_VERSION -r $TEMPLATE_DIR/env/requirements.tx
 execute django-admin.py startproject $PROJ_NAME
 
 # Create the requirements file for the project
-export ENV_DIR=$PROJ_DIR/.environment_settings/
+export ENV_DIR=$PROJ_DIR/environment/
 execute mkdir $ENV_DIR
 pip freeze > $ENV_DIR/requirements.txt
 
 # Copy the environment scripts to the project
-cp $TEMPLATE_DIR/env/*_environment.sh $PROJ_DIR
+cp $TEMPLATE_DIR/env/*_environment.sh $ENV_DIR
+cp $SCRIPT_DIR/script_requirements.sh $ENV_DIR
+chmod +x $ENV_DIR/*.sh
 
 # Copy settings to the project
 cp $TEMPLATE_DIR/settings/settings{,_global,_local}.py $PROJ_DIR/$PROJ_NAME/
@@ -124,15 +127,15 @@ sed -ie "s|<DEV_DIR>|$DEV_DIR/$PROJ_NAME|g" $PROJ_DIR/fabfile.py
 # Create git repository
 # TODO(brahle): ask for user name and password if not set
 cd $PROJ_DIR
-execute git init
+execute $GIT init
 cp $TEMPLATE_DIR/sample.gitignore .gitignore
-execute git add .
-git commit -a -m "Initial commit for project $PROJ_NAME"
+execute $GIT add .
+$GIT commit -a -m "Initial commit for project $PROJ_NAME"
 
 # Create development repository
 execute mkdir -p $DEV_DIR
 cd $DEV_DIR
-execute git clone $PROJ_DIR
+execute $GIT clone $PROJ_DIR
 cp $PROJ_DIR/$PROJ_NAME/settings_local.py $DEV_DIR/$PROJ_NAME/$PROJ_NAME
 
 # Collect static files for the first time

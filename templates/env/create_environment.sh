@@ -4,9 +4,6 @@
 
 # This script helps recreate the virtual environment used in a project that
 # django-quickstart created.
-#
-# It should be located in the root of the repository.
-
 
 # Detect the directory of the source file. Taken from
 # http://stackoverflow.com/questions/59895/can-a-bash-script-tell-what-directory-its-stored-in
@@ -20,6 +17,7 @@ while [ -h "$SOURCE" ]; do
     # where the symlink file was located
 done
 export SCRIPT_DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+export ROOT_DIR="$(dirname $SCRIPT_DIR)"
 
 function execute {
     echo "Executing $@..."
@@ -49,26 +47,28 @@ function confirm {
     esac
 }
 
+source $SCRIPT_DIR/script_requirements.sh
+
 if ! confirm "This will create a new virtual environment. Continue [Y/n] ?"
 then
     exit 0
 fi
 
-LOCATION=$(pwd)/virtualenv
+LOCATION=$(dirname $ROOT_DIR)/$(basename $ROOT_DIR)-virtualenv
 read -e -p "Location of the virtualenv? " -i "$LOCATION" LOCATION
 
 # Install the virtualenv
 execute mkdir -p $LOCATION
-execute virtualenv $LOCATION
+execute virtualenv -p $PYTHON $LOCATION
 cd $LOCATION
 source $LOCATION/bin/activate
 
 # Install the requirements
-execute pip install -r $SCRIPT_DIR/.environment_settings/requirements.txt
+execute pip install -r $SCRIPT_DIR/requirements.txt
 
 # Create a link to activate the environment in the repository
-execute ln -sf $LOCATION/bin/activate $SCRIPT_DIR/activate
+execute ln -sf $LOCATION/bin/activate $ROOT_DIR/activate
 
-echo "You should now be able to source the activate script from the root of your repository - '$SCRIPT_DIR'!"
+echo "You should now be able to source the activate script from the root of your repository - '$ROOT_DIR'!"
 
 
